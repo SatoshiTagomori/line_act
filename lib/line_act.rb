@@ -23,9 +23,41 @@ LINE_REDIRECT_URL・・・Line Developerコンソールで設定したリダイ�
 LINE_SCOPE・・・Line Login APIに問い合わせる内容。
 LINE_SECRET・・・Line Developerコンソールで設定したシークレットキー
 他にもユーザーテーブル(LineUser)とアクセスログテーブル(AccessLog)を設定する
-リダイレクト先のコントローラーで
+
+使い方としてはリダイレクト先のコントローラーで
 LineAct.profile_action(@_request,self,LineUser,AccessLog)
 というふうに定義する
+
+サインアウト処理は
+LineAct.user_sign_out(@_request)
+とでも書いておいて、あとはcurrent_userをnilにするなり、どこかにリダイレクトするなり
+
+
+テーブル設計はこんな感じ
+テーブル名:line_users
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id           | bigint(20)   | NO   | PRI | NULL    | auto_increment |
+| line_id      | varchar(255) | YES  |     | NULL    |                |
+| display_name | varchar(255) | YES  |     | NULL    |                |
+| picture      | varchar(255) | YES  |     | NULL    |                |
+| admin        | tinyint(1)   | YES  |     | 0       |                |
+| created_at   | datetime(6)  | NO   |     | NULL    |                |
+| updated_at   | datetime(6)  | NO   |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+
+access_logs
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id           | bigint(20)   | NO   | PRI | NULL    | auto_increment |
+| line_user_id | bigint(20)   | NO   | MUL | NULL    |                |
+| ip           | varchar(255) | YES  |     | NULL    |                |
+| created_at   | datetime(6)  | NO   |     | NULL    |                |
+| updated_at   | datetime(6)  | NO   |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+
 #######################################################
 EOF
   end
