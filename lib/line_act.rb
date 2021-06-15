@@ -225,7 +225,8 @@ EOF
         :client_id=>ENV['LINE_CLIENT_ID'],
         :redirect_uri=>ENV['LINE_REDIRECT_URL'],
         :state=>req.session[:line_act_state],
-        :scope=>ENV['LINE_SCOPE']
+        :scope=>ENV['LINE_SCOPE'],
+        :bot_prompt=>'aggressive'
       }).to_s
   end
   
