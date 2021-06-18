@@ -159,7 +159,7 @@ EOF
   def self.get_first_user_info(req)
       if res = self.get_user_info(req.session[:line_act_id_token])
           req.session[:line_act_name] = res["name"]
-          req.session[:line_act_picture]=res["picture"]
+          req.session[:line_act_picture]= res["picture"].blank? ? '':res["picture"]
           req.session[:line_act_sub]=res["sub"]
           return true
       end
